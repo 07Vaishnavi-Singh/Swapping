@@ -105,7 +105,7 @@ contract AlphaVaultSwap is Ownable {
         IERC20[] calldata toTokenAddress,
         uint256[] memory amount,
         address[] calldata fromAddress ,
-        uint[] memory slippage,                      // handel slippage 
+        uint[] memory slippage                    // handel slippage 
     
     ) external payable {
         require(
