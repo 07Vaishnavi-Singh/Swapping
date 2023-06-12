@@ -9,7 +9,7 @@ interface IWETH is IERC20 {
     function withdraw(uint256 wad) external;
 }
 
-contract AlphaVaultSwap is Ownable {
+contract Swapping is Ownable {
     // AlphaVault custom events
     event WithdrawTokens(IERC20 buyToken, uint256 boughtAmount_);
     event EtherBalanceChange(uint256 wethBal_);
@@ -88,8 +88,8 @@ contract AlphaVaultSwap is Ownable {
         require(protocols != address(0), "Please provide a valid address");
         // Track our balance of the toTokenAddress to determine how much we've bought.
         uint256 boughtAmount = toTokenAddress.balanceOf(address(this));
-        fromTokenAddress.approve(protocols, type(uint128).max);   
-        (bool success, ) = swapTarget.call{value: 0}(swapCallData);          // how to call the swap data 
+        fromTokenAddress.approve(protocols, type(uint128).max);          // protocol have to be approved?
+        (bool success, ) = swapTarget.call{value: 0}(swapCallData);      // how to call the swap data 
         emit ZeroXCallSuccess(success, boughtAmount);
         require(success, "SWAP_CALL_FAILED");
         boughtAmount = toTokenAddress.balanceOf(address(this)) - boughtAmount;
