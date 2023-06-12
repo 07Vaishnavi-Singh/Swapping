@@ -78,22 +78,22 @@ contract Swapping is Ownable {
    
     function fillQuote(
         // The `fromTokenAddress` field from the API response.
-        string fromTokenAddress,
+        address  fromTokenAddress,
         // The `toTokenAddress` field from the API response.
-        string toTokenAddress,
-        string protocols ,                                            // who should be made the protocols-the protocols?
+        address  toTokenAddress,
+        address   protocols ,                                            // who should be made the protocols-the protocols?
         // The `amount` field from the API response.
-        string amount
+        uint  amount
     ) public returns (uint256) {
         require(protocols != address(0), "Please provide a valid address");
         // Track our balance of the toTokenAddress to determine how much we've bought.
         uint256 boughtAmount = toTokenAddress.balanceOf(address(this));
         fromTokenAddress.approve(protocols, type(uint128).max);          // protocol have to be approved?
-        (bool success, ) = swapTarget.call{value: 0}(swapCallData);      // how to call the swap data 
-        emit ZeroXCallSuccess(success, boughtAmount);
-        require(success, "SWAP_CALL_FAILED");
+        // (bool success, ) = swapTarget.call{value: 0}(swapCallData);      // how to call the swap data 
+        // emit ZeroXCallSuccess(success, boughtAmount);
+        // require(success, "SWAP_CALL_FAILED");
         boughtAmount = toTokenAddress.balanceOf(address(this)) - boughtAmount;
-        emit toTokenAddressBought(boughtAmount);
+        // emit toTokenAddressBought(boughtAmount);
         return boughtAmount;
     }
 
@@ -111,7 +111,7 @@ contract Swapping is Ownable {
         require(
             fromTokenAddress.length <= maxTransactions &&
                 fromAddress.length == toTokenAddress.length &&
-                protocols.length == fromAddress.length &&
+                // protocols.length == fromAddress.length &&
             "Please provide valid data"
         );
 
